@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Url Shortening</title>
+  <!--부트스트랩 css 추가-->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Url Shortening</h1>
+    <div>
+      <input type="text" id="input" value="" placeholder="변경할 URL 을 입력하세요."/>
+      <button type="button" class="btn btn-primary" data-toggle="modal">변경</button>
+    </div>
+
+    <div type="list">
+
+    </div>
+</body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+</script>
+</html>

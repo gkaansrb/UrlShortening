@@ -3,30 +3,36 @@ package com.url.shortening.service;
 import com.url.shortening.exception.ShorteningConvertException;
 import com.url.shortening.model.ConvertType;
 import com.url.shortening.model.UrlMappingDto;
-import javafx.util.Pair;
+import com.url.shortening.model.UrlMappingHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface ShorteningConverter {
+public abstract class ShorteningConverter {
 
-	String PARSER = ":/";
+	@Autowired
+	protected UrlMappingHolder holder;
 
-	String DEFAULT_PROTOCOL = "https://";
+	static final int URL_LENGTH = 8;
 
-	ConvertType getConvertType();
+	static final int BASE = 62;
 
-	UrlMappingDto convert(String url);
+	static final String DOMAIN = "https://localhost:8080/";
 
-	default void validation(String url) {
+	static final char[] TABLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+
+	abstract ConvertType getConvertType();
+
+	abstract UrlMappingDto convert(String url);
+
+	void validation(String url) {
 		if (url == null || url.length() < 1) {
 			throw new ShorteningConvertException("변경할 URL 을 입력 바랍니다");
 		}
 	}
 
-	default Pair<String, String> parser(String url) {
-		if (url.contains(PARSER)) {
-			String[] split = url.split(PARSER);
-			return new Pair<>(split[0] + PARSER, split[1]);
-		} else {
-			return new Pair<>(DEFAULT_PROTOCOL, url);
-		}
+	String deleteHttp(String url) {
+		return url.replace("https://", "")
+			.replace("https:/", "")
+			.replace("http://", "")
+			.replace("http:/", "");
 	}
 }
