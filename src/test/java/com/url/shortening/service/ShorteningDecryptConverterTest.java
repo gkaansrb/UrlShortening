@@ -45,4 +45,9 @@ public class ShorteningDecryptConverterTest {
 	public void convert_exception() throws Exception {
 		converter.convert("");
 	}
+
+	@Test(expected = ShorteningConvertException.class)
+	public void convert_not_found() throws Exception {
+		converter.convert("abcd");
+	}
 }
