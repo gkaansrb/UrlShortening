@@ -10,17 +10,22 @@
 <body>
 <div class="container">
   <div class="header">
-    <nav>
-      <ul class="nav nav-pills pull-right">
-        <li role="presentation"><a href="#">함문규 E-mail : gkaansrb@naver.com</a></li>
-      </ul>
-    </nav>
+    <ul class="nav nav-pills pull-right">
+      <li>함문규 E-mail : gkaansrb@naver.com</li>
+    </ul>
   </div>
   <div class="jumbotron">
     <div>
-      <input type="text" id="input" style="width: 500px; height: 40px" placeholder="  변경할 URL 을 입력하세요." />
+      <input type="text" id="inputUrl" style="width: 500px; height: 40px" placeholder="  변경할 URL 을 입력하세요." />
       <button type="button" class="btn btn-primary" id="convert">변경</button>
     </div>
+  </div>
+  <div class="footer">
+    <ul class="nav nav-pills pull-right convertList">
+      <li>
+        <a href=""></a>
+      </li>
+    </ul>
   </div>
 </div>
 <script src="js/jquery.min.js"></script>
@@ -35,16 +40,19 @@
     });
 
     function convert() {
+      console.log($("#inputUrl").val());
       $.ajax({
         url: "/encrypt",
         method: "post",
         dataType: "json",
         data: {
-          originUrl: $("#convert").val()
+          "originUrl": $("#inputUrl").val()
+        },
+        success: function (result) {
+          $(".convertList").append('<li><a target="_blank" href="' + result.domain + 'decrypt?shortUrl=' + result.key + '"><span class="tab">' + result.shortUrl + '</span></a></li>');
         }
       });
     }
-
 
     $('#convert').click(function () {
       convert();
