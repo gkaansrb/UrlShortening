@@ -5,33 +5,51 @@
   <!--부트스트랩 css 추가-->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 </head>
-<body data-gr-c-s-loaded="true" style="">
-  <div class="container">
-    <div class="header">
-      <nav>
-        <ul class="nav nav-pills pull-right">
-          <li role="presentation"><a href="#">About</a></li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">Url Shortening</h3>
-    </div>
-    <div><button type="button" class="bg-primary">123123</button> </div>
-    <div class="jumbotron">
-      <div>
-        <input type="text" id="input" value="" placeholder="변경할 URL 을 입력하세요."/>
-        <button type="button" class="btn btn-primary" data-toggle="modal">변경</button>
-      </div>
+<body>
+<div class="container">
+  <div class="header">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation"><a href="#">함문규 E-mail : gkaansrb@naver.com</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="jumbotron">
+    <div>
+      <input type="text" id="input" style="width: 500px; height: 40px" placeholder="  변경할 URL 을 입력하세요." />
+      <button type="button" class="btn btn-primary" id="convert">변경</button>
     </div>
   </div>
-  <footer class="footer">
-    <p>Kakao Pay 입사지원자 함문규 E-mail : gkaansrb@naver.com</p>
-  </footer>
-</body>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
 <script type="text/javascript">
+  $(document).ready(function () {
+    $(".jumbotron").on("keypress", function (event) {
+      console.log(event.toString());
+      if (event.keyCode == 13) {
+        convert();
+      }
+    });
 
+    function convert() {
+      $.ajax({
+        url: "/encrypt",
+        method: "post",
+        dataType: "json",
+        data: {
+          originUrl: $("#convert").val()
+        }
+      });
+    }
+
+
+    $('#convert').click(function () {
+      convert();
+    });
+  });
 </script>
+</body>
 </html>
