@@ -7,10 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.junit.Assert.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ShorteningDecryptConverterTest {
@@ -18,7 +15,6 @@ public class ShorteningDecryptConverterTest {
 	private ShorteningDecryptConverter converter = new ShorteningDecryptConverter();
 
 	private String testUrl = "kakaoPay.com";
-	private String testShort = "https://localhost:8080/123123";
 	private String key = "123123";
 
 	@Before
@@ -34,6 +30,8 @@ public class ShorteningDecryptConverterTest {
 
 	@Test
 	public void convert() throws Exception {
+		String testShort = "https://localhost:8080/123123";
+
 		UrlMappingDto convert = converter.convert(testShort);
 
 		Assert.assertEquals(key, convert.getKey());

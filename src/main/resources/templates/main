@@ -3,18 +3,39 @@
 <head>
   <title>Url Shortening</title>
   <!--부트스트랩 css 추가-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
-<body>
-    <h1>Url Shortening</h1>
-    <div>
-      <input type="text" id="input" value="" placeholder="변경할 URL 을 입력하세요."/>
-      <button type="button" class="btn btn-primary" data-toggle="modal">변경</button>
+<body data-gr-c-s-loaded="true" style="">
+  <div class="container">
+    <div class="header">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+          <li role="presentation"><a href="#">About</a></li>
+        </ul>
+      </nav>
+      <h3 class="text-muted">Url Shortening</h3>
     </div>
 
-    <div type="list">
+    <div class="jumbotron">
 
+      <div>
+        <input type="text" id="input" value="" placeholder="변경할 URL 을 입력하세요."/>
+        <button type="button" class="btn btn-primary" data-toggle="modal">변경</button>
+      </div>
+
+      <!--<h1>Jumbotron heading</h1>-->
+      <!--<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum-->
+        <!--nibh, ut fermentum massa justo sit amet risus.</p>-->
+      <!--<p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>-->
     </div>
+
+    <footer class="footer">
+      <p>Kakao Pay 입사지원자 함문규(gkaansrb@naver.com)</p>
+    </footer>
+
+  </div> <!-- /container -->
 </body>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
