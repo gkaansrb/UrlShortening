@@ -10,9 +10,7 @@
 <body>
 <div class="container">
   <div class="header">
-    <ul class="nav nav-pills pull-right">
-      <li>함문규 E-mail : gkaansrb@naver.com</li>
-    </ul>
+    <h1>Url Shortening</h1>
   </div>
   <div class="jumbotron">
     <div>
@@ -21,26 +19,30 @@
     </div>
   </div>
   <div class="footer">
-    <ul class="nav nav-pills pull-right convertList">
-      <li>
-        <a href=""></a>
-      </li>
-    </ul>
+    <ul class="pull-right convertList"></ul>
   </div>
 </div>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
   $(document).ready(function () {
+    $.ajax({
+      url: "/list",
+      method: "get",
+      success: function (result) {
+        for (var index in result) {
+          $(".convertList").append('<li id="' + result[index].key + '" ><a target="_blank" href="' + result[index].shortUrl + '"><span class="tab">' + result[index].shortUrl + '</span></a></li>');
+        }
+      }
+    });
+
     $(".jumbotron").on("keypress", function (event) {
-      console.log(event.toString());
       if (event.keyCode == 13) {
         convert();
       }
     });
 
     function convert() {
-      console.log($("#inputUrl").val());
       $.ajax({
         url: "/encrypt",
         method: "post",
@@ -49,7 +51,17 @@
           "originUrl": $("#inputUrl").val()
         },
         success: function (result) {
-          $(".convertList").append('<li><a target="_blank" href="' + result.domain + 'decrypt?shortUrl=' + result.key + '"><span class="tab">' + result.shortUrl + '</span></a></li>');
+          var $li = $("#" + result.key);
+          if ($li.length == 0) {
+            $(".convertList").append('<li id="' + result.key + '" ><a target="_blank" href="' + result.shortUrl + '"><span class="tab">' + result.shortUrl + '</span></a></li>');
+          } else {
+            for (var toggleCount = 0; toggleCount < 4; toggleCount++) {
+              $li.toggle(300);
+            }
+          }
+        },
+        error: function (request) {
+          $(".convertList").append('<li>단축 URL 생성에 실패하였습니다 [ ' + jQuery.parseJSON(request.responseText).message + ' ]</li>');
         }
       });
     }

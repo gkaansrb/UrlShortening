@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ShorteningEncryptConverterTest {
+public class ShorteningConverterTest {
 
 	private ShorteningConverter converter = new ShorteningConverter();
 

@@ -1,20 +1,17 @@
 package com.url.shortening.service;
 
+import com.google.common.collect.Lists;
 import com.url.shortening.exception.ShorteningConvertException;
 import com.url.shortening.model.UrlMappingDto;
 import com.url.shortening.model.UrlMappingHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class ShorteningConverter {
-
-	private static final int URL_LENGTH = 8;
-	private static final int BASE = 62;
-	private static final String DOMAIN = "http://localhost:8080/";
-	private static final char[] TABLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 	private UrlMappingHolder holder;
 
 	public ShorteningConverter() {
@@ -23,7 +20,7 @@ public class ShorteningConverter {
 
 	private void validation(String url) {
 		if (url == null || url.length() < 1) {
-			throw new ShorteningConvertException("변경할 URL 을 입력 바랍니다");
+			throw new ShorteningConvertException("URL 정보가 없습니다.");
 		}
 	}
 
@@ -46,7 +43,7 @@ public class ShorteningConverter {
 	}
 
 	private UrlMappingDto getUrlMappingDto(String url) {
-		return UrlMappingDto.builder().key(buildRandomUrl()).domain(DOMAIN).originUrl(url).build();
+		return UrlMappingDto.builder().key(buildRandomUrl()).domain(StaticValues.DOMAIN).originUrl(url).build();
 	}
 
 	private UrlMappingDto save(UrlMappingDto mappingDto) {
@@ -57,15 +54,15 @@ public class ShorteningConverter {
 
 	private String buildRandomUrl() {
 		Random random = new Random();
-		StringBuilder generateKey;
+		StringBuilder key;
 		do {
-			generateKey = new StringBuilder();
-			for (int index = 0; index <= URL_LENGTH; index++) {
-				generateKey.append(TABLE[random.nextInt(BASE)]);
+			key = new StringBuilder();
+			for (int index = 0; index <= StaticValues.URL_LENGTH; index++) {
+				key.append(StaticValues.TABLE[random.nextInt(StaticValues.BASE)]);
 			}
-		} while (holder.getShortUrlMappingMap().containsKey(generateKey.toString()));
+		} while (holder.getShortUrlMappingMap().containsKey(key.toString()));
 
-		return generateKey.toString();
+		return key.toString();
 	}
 
 	public UrlMappingDto findByShortUrl(String shortURL) {
@@ -77,6 +74,17 @@ public class ShorteningConverter {
 	}
 
 	private String getUrl(String shortURL) {
-		return shortURL.replace(DOMAIN, "");
+		return shortURL.replace(StaticValues.DOMAIN, "");
+	}
+
+	public List<UrlMappingDto> getUrlList() {
+		return Lists.newArrayList(holder.getShortUrlMappingMap().values());
+	}
+
+	private static class StaticValues {
+		private static final int URL_LENGTH = 8;
+		private static final int BASE = 62;
+		private static final String DOMAIN = "http://localhost:8080/";
+		private static final char[] TABLE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 	}
 }
